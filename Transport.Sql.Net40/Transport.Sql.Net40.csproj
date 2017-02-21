@@ -53,7 +53,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Transport.Sql\**\*.cs" />
+    <Compile Include="..\Transport.Sql\DataStreamContainer.cs">
+      <Link>DataStreamContainer.cs</Link>
+    </Compile>
+    <Compile Include="..\Transport.Sql\Properties\AssemblyInfo.cs" />
+    <Compile Include="..\Transport.Sql\StoredProcedures.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

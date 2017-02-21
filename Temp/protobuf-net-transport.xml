@@ -17,18 +17,80 @@
             <param name="prefix">Byte array with bytes to check before deserialize</param>
             <returns></returns>
         </member>
+        <member name="M:ProtoBuf.Transport.Abstract.IDataPackReader.Read(System.IO.Stream,System.String)">
+            <summary>
+            Reads <see cref="T:ProtoBuf.Transport.DataPack"/> from stream, using prefix if provided
+            </summary>
+            <param name="stream">Stream with data to deserialize</param>
+            <param name="prefix">Byte array with bytes to check before deserialize</param>
+            <returns></returns>
+        </member>
         <member name="T:ProtoBuf.Transport.Abstract.IDataPackWriter">
             <summary>
             Writer for DataPack
             </summary>
         </member>
-        <member name="M:ProtoBuf.Transport.Abstract.IDataPackWriter.Write(System.IO.Stream,ProtoBuf.Transport.DataPack,ProtoBuf.Transport.Abstract.ISignAlgorithm)">
+        <member name="M:ProtoBuf.Transport.Abstract.IDataPackWriter.Write(ProtoBuf.Transport.DataPack,System.IO.Stream,ProtoBuf.Transport.Abstract.ISignAlgorithm)">
             <summary>
             Writes <see cref="T:ProtoBuf.Transport.DataPack"/> to stream
             </summary>
-            <param name="stream">Stream where <see cref="T:ProtoBuf.Transport.DataPack"/> is written to</param>
             <param name="dataPack">Data</param>
+            <param name="stream">Stream where <see cref="T:ProtoBuf.Transport.DataPack"/> is written to</param>
             <param name="signAlgorithm">Sign algorithm if needed</param>
+        </member>
+        <member name="T:ProtoBuf.Transport.DataPackReader">
+            <summary>
+            Reader for files, written in protobuf-net-transport format
+            </summary>
+        </member>
+        <member name="M:ProtoBuf.Transport.DataPackReader.Read(System.IO.Stream,System.Byte[])">
+            <summary>
+            Reads <see cref="T:ProtoBuf.Transport.DataPack"/> from stream, using prefix if provided
+            </summary>
+            <param name="stream">Stream with data to deserialize</param>
+            <param name="prefix">Byte array with bytes to check before deserialize</param>
+            <returns></returns>
+        </member>
+        <member name="M:ProtoBuf.Transport.DataPackReader.Read(System.IO.Stream,System.String)">
+            <summary>
+            Reads <see cref="T:ProtoBuf.Transport.DataPack"/> from stream, using prefix if provided
+            </summary>
+            <param name="stream">Stream with data to deserialize</param>
+            <param name="prefix">Byte array with bytes to check before deserialize</param>
+            <returns></returns>
+        </member>
+        <member name="T:ProtoBuf.Transport.DataPair">
+            <summary>
+            Key value storage for one pair of data
+            </summary>
+        </member>
+        <member name="M:ProtoBuf.Transport.DataPair.#ctor">
+            <summary>
+            Initializes new instance of <see cref="T:ProtoBuf.Transport.DataPair"/>. Defaul constructo used only for deserialization purposes.
+            </summary>
+        </member>
+        <member name="M:ProtoBuf.Transport.DataPair.#ctor(System.String,System.String)">
+            <summary>
+            Initializes new instance of <see cref="T:ProtoBuf.Transport.DataPair"/>
+            </summary>
+            <param name="name">Name of this pair</param>
+            <param name="value">Value of this pair</param>
+        </member>
+        <member name="P:ProtoBuf.Transport.DataPair.Name">
+            <summary>
+            Key of this pair
+            </summary>
+        </member>
+        <member name="P:ProtoBuf.Transport.DataPair.Value">
+            <summary>
+            Value of this pair
+            </summary>
+        </member>
+        <member name="M:ProtoBuf.Transport.DataPair.Clone">
+            <summary>
+            Creates a copy of DataPair
+            </summary>
+            <returns></returns>
         </member>
         <member name="T:ProtoBuf.Transport.FilteredStream">
             <summary>
@@ -321,6 +383,29 @@
             </summary>
             <param name="value">The byte to write to the stream. </param>
         </member>
+        <member name="T:ProtoBuf.Transport.OfflineDataPackReader">
+            <summary>
+            Offline reader for files, written in protobuf-net-transport format. It provides functionality to read data from DataParts even if source stream is already closed
+            </summary>
+        </member>
+        <member name="T:ProtoBuf.Transport.OfflineDataPackWriter">
+            <summary>
+            Writer for DataPack
+            </summary>
+        </member>
+        <member name="M:ProtoBuf.Transport.OfflineDataPackWriter.Write(ProtoBuf.Transport.DataPack,System.IO.Stream,ProtoBuf.Transport.Abstract.ISignAlgorithm)">
+            <summary>
+            Writes <see cref="T:ProtoBuf.Transport.DataPack"/> to stream
+            </summary>
+            <param name="dataPack">Data</param>
+            <param name="stream">Stream where <see cref="T:ProtoBuf.Transport.DataPack"/> is written to</param>
+            <param name="signAlgorithm">Sign algorithm if needed</param>
+        </member>
+        <member name="T:ProtoBuf.Transport.OnlineDataPackReader">
+            <summary>
+            Offline reader for files, written in protobuf-net-transport format. It provides functionality to read data from DataParts only when source stream is sill open
+            </summary>
+        </member>
         <member name="M:ProtoBuf.Transport.TempFile.CreateAsTempFile(System.String)">
             <summary>
             Оборачивает существуещий файл, делая его временным, но не меняя его имени
@@ -328,8 +413,59 @@
             <param name="fullFileName"></param>
             <returns></returns>
         </member>
-        <member name="M:ProtoBuf.Transport.TempFileStreamGetter.Dispose">
+        <member name="M:ProtoBuf.Transport.TempFileStreamContainer.Dispose">
             <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
+        </member>
+        <member name="T:ProtoBuf.Transport.TransportSerializer">
+            <summary>
+            Serializer to serialize and deserealize DataPack files
+            </summary>
+        </member>
+        <member name="M:ProtoBuf.Transport.TransportSerializer.#cctor">
+            <summary>
+            Type constructor
+            </summary>
+        </member>
+        <member name="P:ProtoBuf.Transport.TransportSerializer.DataPackReader">
+            <summary>
+            DataPackReader used to deserealize stream into DataPack
+            </summary>
+        </member>
+        <member name="P:ProtoBuf.Transport.TransportSerializer.DataPackWriter">
+            <summary>
+            DataPackWriter used to serialize DataPack into strream
+            </summary>
+        </member>
+        <member name="M:ProtoBuf.Transport.TransportSerializer.Serialize(ProtoBuf.Transport.DataPack,System.IO.Stream,ProtoBuf.Transport.Abstract.ISignAlgorithm)">
+            <summary>
+            Writes DataPack into stream using signing if needed
+            </summary>
+            <param name="dataPack">DataPack object to write</param>
+            <param name="stream">Stream, where DataPack will be serialized</param>
+            <param name="signAlgorithm">Signing algorithm to use if needed</param>
+        </member>
+        <member name="M:ProtoBuf.Transport.TransportSerializer.Deserialize(System.IO.Stream)">
+            <summary>
+            Deserializes DataPack from stream
+            </summary>
+            <param name="stream">Stream, where DataPack is contained</param>
+            <returns></returns>
+        </member>
+        <member name="M:ProtoBuf.Transport.TransportSerializer.Deserialize(System.IO.Stream,System.Byte[])">
+            <summary>
+            Deserializes DataPack from stream and checks if prefix match
+            </summary>
+            <param name="stream">Stream, where DataPack is contained</param>
+            <param name="prefix">Prefix of data</param>
+            <returns></returns>
+        </member>
+        <member name="M:ProtoBuf.Transport.TransportSerializer.Deserialize(System.IO.Stream,System.String)">
+            <summary>
+            Deserializes DataPack from stream and checks if prefix match
+            </summary>
+            <param name="stream">Stream, where DataPack is contained</param>
+            <param name="prefix">Prefix of data</param>
+            <returns></returns>
         </member>
     </members>
 </doc>
