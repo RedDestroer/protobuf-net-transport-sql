@@ -4,6 +4,23 @@
         <name>protobuf-net-transport</name>
     </assembly>
     <members>
+        <member name="T:ProtoBuf.Transport.Abstract.IDataContainer">
+            <summary>
+            Holds information about data, which is ready to be copied into given stream by command
+            </summary>
+        </member>
+        <member name="M:ProtoBuf.Transport.Abstract.IDataContainer.GetStream">
+            <summary>
+            Returns stream, contained within
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ProtoBuf.Transport.Abstract.IDataContainer.CopyToStream(System.IO.Stream)">
+            <summary>
+            Copy contained inner data into the output stream
+            </summary>
+            <param name="stream"></param>
+        </member>
         <member name="T:ProtoBuf.Transport.Abstract.IDataPackReader">
             <summary>
             Reader for files, written in protobuf-net-transport format
@@ -38,6 +55,71 @@
             <param name="stream">Stream where <see cref="T:ProtoBuf.Transport.DataPack"/> is written to</param>
             <param name="signAlgorithm">Sign algorithm if needed</param>
         </member>
+        <member name="T:ProtoBuf.Transport.Consts">
+            <summary>
+            Constants
+            </summary>
+        </member>
+        <member name="F:ProtoBuf.Transport.Consts.DateTimeFormat">
+            <summary>
+            Date and time storage format
+            </summary>
+        </member>
+        <member name="T:ProtoBuf.Transport.DataPack">
+            <summary>
+            Data transport container
+            </summary>
+        </member>
+        <member name="M:ProtoBuf.Transport.DataPack.#ctor">
+            <summary>
+            Creates <see cref="T:ProtoBuf.Transport.DataPack"/> instance.
+            </summary>
+        </member>
+        <member name="M:ProtoBuf.Transport.DataPack.#ctor(System.Byte[])">
+            <summary>
+            Creates <see cref="T:ProtoBuf.Transport.DataPack"/> instance with prefix bytes.
+            </summary>
+        </member>
+        <member name="M:ProtoBuf.Transport.DataPack.#ctor(System.String)">
+            <summary>
+            Creates <see cref="T:ProtoBuf.Transport.DataPack"/> instance with prefix bytes (Encoding.UTF8.GetBytes(dataPrefix)).
+            </summary>
+        </member>
+        <member name="P:ProtoBuf.Transport.DataPack.Headers">
+            <summary>
+            Headers of container
+            </summary>
+        </member>
+        <member name="P:ProtoBuf.Transport.DataPack.Properties">
+            <summary>
+            Properties of container
+            </summary>
+        </member>
+        <member name="P:ProtoBuf.Transport.DataPack.DataParts">
+            <summary>
+            All transported data
+            </summary>
+        </member>
+        <member name="P:ProtoBuf.Transport.DataPack.PrefixSize">
+            <summary>
+            Size of prefix in bytes
+            </summary>
+        </member>
+        <member name="P:ProtoBuf.Transport.DataPack.FileId">
+            <summary>
+            File identifier (for uniqueness)
+            </summary>
+        </member>
+        <member name="P:ProtoBuf.Transport.DataPack.DateCreate">
+            <summary>
+            File create date
+            </summary>
+        </member>
+        <member name="P:ProtoBuf.Transport.DataPack.Description">
+            <summary>
+            File description
+            </summary>
+        </member>
         <member name="T:ProtoBuf.Transport.DataPackReader">
             <summary>
             Reader for files, written in protobuf-net-transport format
@@ -66,7 +148,7 @@
         </member>
         <member name="M:ProtoBuf.Transport.DataPair.#ctor">
             <summary>
-            Initializes new instance of <see cref="T:ProtoBuf.Transport.DataPair"/>. Defaul constructo used only for deserialization purposes.
+            Initializes new instance of <see cref="T:ProtoBuf.Transport.DataPair"/>. Default constructor used only for deserialization purposes.
             </summary>
         </member>
         <member name="M:ProtoBuf.Transport.DataPair.#ctor(System.String,System.String)">
@@ -92,6 +174,78 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:ProtoBuf.Transport.DataPair.Equals(ProtoBuf.Transport.DataPair)">
+            <summary>Indicates whether the current object is equal to another object of the same type.</summary>
+            <returns>true if the current object is equal to the <paramref name="other" /> parameter; otherwise, false.</returns>
+            <param name="other">An object to compare with this object.</param>
+        </member>
+        <member name="M:ProtoBuf.Transport.DataPair.Equals(System.Object)">
+            <summary>Determines whether the specified <see cref="T:System.Object" /> is equal to the current <see cref="T:System.Object" />.</summary>
+            <returns>true if the specified <see cref="T:System.Object" /> is equal to the current <see cref="T:System.Object" />; otherwise, false.</returns>
+            <param name="obj">The <see cref="T:System.Object" /> to compare with the current <see cref="T:System.Object" />. </param>
+        </member>
+        <member name="M:ProtoBuf.Transport.DataPair.GetHashCode">
+            <summary>Serves as a hash function for a particular type. </summary>
+            <returns>A hash code for the current <see cref="T:System.Object" />.</returns>
+        </member>
+        <member name="T:ProtoBuf.Transport.DataPart">
+            <summary>
+            Holds information about transported piece of data
+            </summary>
+        </member>
+        <member name="M:ProtoBuf.Transport.DataPart.#ctor(ProtoBuf.Transport.Abstract.IDataContainer)">
+            <summary>
+            Creates <see cref="T:ProtoBuf.Transport.DataPart"/> instance
+            </summary>
+            <param name="dataContainer">Container with data stream</param>
+        </member>
+        <member name="P:ProtoBuf.Transport.DataPart.Headers">
+            <summary>
+            List of headers
+            </summary>
+        </member>
+        <member name="P:ProtoBuf.Transport.DataPart.Properties">
+            <summary>
+            List of properties
+            </summary>
+        </member>
+        <member name="M:ProtoBuf.Transport.DataPart.GetStream">
+            <summary>
+            Returns holded data stream
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ProtoBuf.Transport.DataPart.CopyToStream(System.IO.Stream)">
+            <summary>
+            Writes holded data stream into another stream
+            </summary>
+            <param name="stream"></param>
+        </member>
+        <member name="M:ProtoBuf.Transport.DataPart.Deserialize``1(System.Func{System.IO.Stream,``0})">
+            <summary>
+            Deserialize data from stream
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="deserializeFunc"></param>
+            <returns></returns>
+        </member>
+        <member name="T:ProtoBuf.Transport.DelegateDataContainer">
+            <summary>
+            Holds reference to delegate, which is called at CopyToStream method.
+            </summary>
+        </member>
+        <member name="M:ProtoBuf.Transport.DelegateDataContainer.GetStream">
+            <summary>
+            Returns stream, contained within
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ProtoBuf.Transport.DelegateDataContainer.CopyToStream(System.IO.Stream)">
+            <summary>
+            Copy contained inner data into the output stream.
+            </summary>
+            <param name="stream"></param>
+        </member>
         <member name="T:ProtoBuf.Transport.FilteredStream">
             <summary>
             Декоратор для потока, позволяющий выделить из потока только какой-то фрагмент
@@ -99,6 +253,29 @@
             Это сделано осознано и менять это поведение НЕЛЬЗЯ, если нужен фильтрующий поток, 
             который диспозит свой подчинённый поток, то используйте DisposableFilteredStream
             </summary>
+        </member>
+        <member name="T:ProtoBuf.Transport.FuncDataContainer">
+            <summary>
+            It contains a reference to the function, which creates a stream
+            </summary>
+        </member>
+        <member name="M:ProtoBuf.Transport.FuncDataContainer.#ctor(System.Func{System.IO.Stream})">
+            <summary>
+            Creates instance of <see cref="T:ProtoBuf.Transport.FuncDataContainer"/>
+            </summary>
+            <param name="streamFunc"></param>
+        </member>
+        <member name="M:ProtoBuf.Transport.FuncDataContainer.GetStream">
+            <summary>
+            Returns stream, contained within
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ProtoBuf.Transport.FuncDataContainer.CopyToStream(System.IO.Stream)">
+            <summary>
+            Copy contained inner data into the output stream.
+            </summary>
+            <param name="stream"></param>
         </member>
         <member name="M:ProtoBuf.Transport.Headers.GetEnumerator">
             <summary>Returns an enumerator that iterates through the collection.</summary>
@@ -401,6 +578,29 @@
             <param name="stream">Stream where <see cref="T:ProtoBuf.Transport.DataPack"/> is written to</param>
             <param name="signAlgorithm">Sign algorithm if needed</param>
         </member>
+        <member name="T:ProtoBuf.Transport.OnlineDataContainer">
+            <summary>
+            It contains a reference to the stream, which will be copied to output. Assumes that contained stream is not closed before CopyStream has called. Assumes that stream is seekable.
+            </summary>
+        </member>
+        <member name="M:ProtoBuf.Transport.OnlineDataContainer.#ctor(System.IO.Stream)">
+            <summary>
+            Creates instance of <see cref="T:ProtoBuf.Transport.OnlineDataContainer"/>
+            </summary>
+            <param name="stream"></param>
+        </member>
+        <member name="M:ProtoBuf.Transport.OnlineDataContainer.GetStream">
+            <summary>
+            Returns stream, contained within
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ProtoBuf.Transport.OnlineDataContainer.CopyToStream(System.IO.Stream)">
+            <summary>
+            Copy contained inner data into the output stream.
+            </summary>
+            <param name="stream"></param>
+        </member>
         <member name="T:ProtoBuf.Transport.OnlineDataPackReader">
             <summary>
             Offline reader for files, written in protobuf-net-transport format. It provides functionality to read data from DataParts only when source stream is sill open
@@ -413,8 +613,33 @@
             <param name="fullFileName"></param>
             <returns></returns>
         </member>
-        <member name="M:ProtoBuf.Transport.TempFileStreamContainer.Dispose">
-            <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
+        <member name="T:ProtoBuf.Transport.TempFileDataContainer">
+            <summary>
+            It copies given stream into temporary file and then given stream can be closed without harm to the data. CopyToStream takes data from that temporary file. Temporary file will be deleted on Dispose().
+            </summary>
+        </member>
+        <member name="M:ProtoBuf.Transport.TempFileDataContainer.#ctor(System.IO.Stream)">
+            <summary>
+            Creates instance of <see cref="T:ProtoBuf.Transport.TempFileDataContainer"/>
+            </summary>
+            <param name="stream"></param>
+        </member>
+        <member name="M:ProtoBuf.Transport.TempFileDataContainer.GetStream">
+            <summary>
+            Returns stream, contained within
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ProtoBuf.Transport.TempFileDataContainer.CopyToStream(System.IO.Stream)">
+            <summary>
+            Copy contained inner data into the output stream.
+            </summary>
+            <param name="stream"></param>
+        </member>
+        <member name="M:ProtoBuf.Transport.TempFileDataContainer.Dispose">
+            <summary>
+            Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+            </summary>
         </member>
         <member name="T:ProtoBuf.Transport.TransportSerializer">
             <summary>

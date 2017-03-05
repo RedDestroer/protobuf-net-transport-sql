@@ -6,7 +6,7 @@ using ProtoBuf.Transport.Abstract;
 namespace ProtoBuf.Transport.Sql
 {
     public class DataStreamContainer
-        : IStreamContainer
+        : IDataContainer
     {
         private readonly string _connectionString;
         private readonly string _commandText;

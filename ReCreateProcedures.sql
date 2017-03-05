@@ -65,13 +65,13 @@ GO
 
 
 
-CREATE ASSEMBLY ProtoBuf from 'C:\git\inet\protobuf-net-transport\Transport.Net40\bin\Release_WO_SM\protobuf-net.dll' WITH PERMISSION_SET = UNSAFE
+CREATE ASSEMBLY ProtoBuf from 'C:\git\inet\protobuf-net-transport-sql\Temp\Net40\protobuf-net.dll' WITH PERMISSION_SET = UNSAFE
 GO
 
-CREATE ASSEMBLY ProtoBufData from 'C:\git\inet\protobuf-net-data\src\ProtoBuf.Data.Net40\bin\net40\protobuf-net-data.dll' WITH PERMISSION_SET = UNSAFE
+CREATE ASSEMBLY ProtoBufData from 'C:\git\inet\protobuf-net-transport-sql\Temp\Net40\protobuf-net-data.dll' WITH PERMISSION_SET = UNSAFE
 GO
 
-CREATE ASSEMBLY ProtoBufTransport from 'C:\git\inet\protobuf-net-transport-sql\Temp\protobuf-net-transport.dll' WITH PERMISSION_SET = UNSAFE
+CREATE ASSEMBLY ProtoBufTransport from 'C:\git\inet\protobuf-net-transport-sql\Temp\Net40\protobuf-net-transport.dll' WITH PERMISSION_SET = UNSAFE
 GO
 
 CREATE ASSEMBLY ProtoBufTransportSql from 'C:\git\inet\protobuf-net-transport-sql\Transport.Sql.Net40\bin\Debug\protobuf-net-transport-sql.dll' WITH PERMISSION_SET = UNSAFE

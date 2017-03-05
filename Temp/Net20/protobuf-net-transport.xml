@@ -1,0 +1,696 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>protobuf-net-transport</name>
+    </assembly>
+    <members>
+        <member name="T:ProtoBuf.Transport.Abstract.IDataContainer">
+            <summary>
+            Holds information about data, which is ready to be copied into given stream by command
+            </summary>
+        </member>
+        <member name="M:ProtoBuf.Transport.Abstract.IDataContainer.GetStream">
+            <summary>
+            Returns stream, contained within
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ProtoBuf.Transport.Abstract.IDataContainer.CopyToStream(System.IO.Stream)">
+            <summary>
+            Copy contained inner data into the output stream
+            </summary>
+            <param name="stream"></param>
+        </member>
+        <member name="T:ProtoBuf.Transport.Abstract.IDataPackReader">
+            <summary>
+            Reader for files, written in protobuf-net-transport format
+            </summary>
+        </member>
+        <member name="M:ProtoBuf.Transport.Abstract.IDataPackReader.Read(System.IO.Stream,System.Byte[])">
+            <summary>
+            Reads <see cref="T:ProtoBuf.Transport.DataPack"/> from stream, using prefix if provided
+            </summary>
+            <param name="stream">Stream with data to deserialize</param>
+            <param name="prefix">Byte array with bytes to check before deserialize</param>
+            <returns></returns>
+        </member>
+        <member name="M:ProtoBuf.Transport.Abstract.IDataPackReader.Read(System.IO.Stream,System.String)">
+            <summary>
+            Reads <see cref="T:ProtoBuf.Transport.DataPack"/> from stream, using prefix if provided
+            </summary>
+            <param name="stream">Stream with data to deserialize</param>
+            <param name="prefix">Byte array with bytes to check before deserialize</param>
+            <returns></returns>
+        </member>
+        <member name="T:ProtoBuf.Transport.Abstract.IDataPackWriter">
+            <summary>
+            Writer for DataPack
+            </summary>
+        </member>
+        <member name="M:ProtoBuf.Transport.Abstract.IDataPackWriter.Write(ProtoBuf.Transport.DataPack,System.IO.Stream,ProtoBuf.Transport.Abstract.ISignAlgorithm)">
+            <summary>
+            Writes <see cref="T:ProtoBuf.Transport.DataPack"/> to stream
+            </summary>
+            <param name="dataPack">Data</param>
+            <param name="stream">Stream where <see cref="T:ProtoBuf.Transport.DataPack"/> is written to</param>
+            <param name="signAlgorithm">Sign algorithm if needed</param>
+        </member>
+        <member name="T:ProtoBuf.Transport.Consts">
+            <summary>
+            Constants
+            </summary>
+        </member>
+        <member name="F:ProtoBuf.Transport.Consts.DateTimeFormat">
+            <summary>
+            Date and time storage format
+            </summary>
+        </member>
+        <member name="T:ProtoBuf.Transport.DataPack">
+            <summary>
+            Data transport container
+            </summary>
+        </member>
+        <member name="M:ProtoBuf.Transport.DataPack.#ctor">
+            <summary>
+            Creates <see cref="T:ProtoBuf.Transport.DataPack"/> instance.
+            </summary>
+        </member>
+        <member name="M:ProtoBuf.Transport.DataPack.#ctor(System.Byte[])">
+            <summary>
+            Creates <see cref="T:ProtoBuf.Transport.DataPack"/> instance with prefix bytes.
+            </summary>
+        </member>
+        <member name="M:ProtoBuf.Transport.DataPack.#ctor(System.String)">
+            <summary>
+            Creates <see cref="T:ProtoBuf.Transport.DataPack"/> instance with prefix bytes (Encoding.UTF8.GetBytes(dataPrefix)).
+            </summary>
+        </member>
+        <member name="P:ProtoBuf.Transport.DataPack.Headers">
+            <summary>
+            Headers of container
+            </summary>
+        </member>
+        <member name="P:ProtoBuf.Transport.DataPack.Properties">
+            <summary>
+            Properties of container
+            </summary>
+        </member>
+        <member name="P:ProtoBuf.Transport.DataPack.DataParts">
+            <summary>
+            All transported data
+            </summary>
+        </member>
+        <member name="P:ProtoBuf.Transport.DataPack.PrefixSize">
+            <summary>
+            Size of prefix in bytes
+            </summary>
+        </member>
+        <member name="P:ProtoBuf.Transport.DataPack.FileId">
+            <summary>
+            File identifier (for uniqueness)
+            </summary>
+        </member>
+        <member name="P:ProtoBuf.Transport.DataPack.DateCreate">
+            <summary>
+            File create date
+            </summary>
+        </member>
+        <member name="P:ProtoBuf.Transport.DataPack.Description">
+            <summary>
+            File description
+            </summary>
+        </member>
+        <member name="T:ProtoBuf.Transport.DataPackReader">
+            <summary>
+            Reader for files, written in protobuf-net-transport format
+            </summary>
+        </member>
+        <member name="M:ProtoBuf.Transport.DataPackReader.Read(System.IO.Stream,System.Byte[])">
+            <summary>
+            Reads <see cref="T:ProtoBuf.Transport.DataPack"/> from stream, using prefix if provided
+            </summary>
+            <param name="stream">Stream with data to deserialize</param>
+            <param name="prefix">Byte array with bytes to check before deserialize</param>
+            <returns></returns>
+        </member>
+        <member name="M:ProtoBuf.Transport.DataPackReader.Read(System.IO.Stream,System.String)">
+            <summary>
+            Reads <see cref="T:ProtoBuf.Transport.DataPack"/> from stream, using prefix if provided
+            </summary>
+            <param name="stream">Stream with data to deserialize</param>
+            <param name="prefix">Byte array with bytes to check before deserialize</param>
+            <returns></returns>
+        </member>
+        <member name="T:ProtoBuf.Transport.DataPair">
+            <summary>
+            Key value storage for one pair of data
+            </summary>
+        </member>
+        <member name="M:ProtoBuf.Transport.DataPair.#ctor">
+            <summary>
+            Initializes new instance of <see cref="T:ProtoBuf.Transport.DataPair"/>. Default constructor used only for deserialization purposes.
+            </summary>
+        </member>
+        <member name="M:ProtoBuf.Transport.DataPair.#ctor(System.String,System.String)">
+            <summary>
+            Initializes new instance of <see cref="T:ProtoBuf.Transport.DataPair"/>
+            </summary>
+            <param name="name">Name of this pair</param>
+            <param name="value">Value of this pair</param>
+        </member>
+        <member name="P:ProtoBuf.Transport.DataPair.Name">
+            <summary>
+            Key of this pair
+            </summary>
+        </member>
+        <member name="P:ProtoBuf.Transport.DataPair.Value">
+            <summary>
+            Value of this pair
+            </summary>
+        </member>
+        <member name="M:ProtoBuf.Transport.DataPair.Clone">
+            <summary>
+            Creates a copy of DataPair
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ProtoBuf.Transport.DataPair.Equals(ProtoBuf.Transport.DataPair)">
+            <summary>Indicates whether the current object is equal to another object of the same type.</summary>
+            <returns>true if the current object is equal to the <paramref name="other" /> parameter; otherwise, false.</returns>
+            <param name="other">An object to compare with this object.</param>
+        </member>
+        <member name="M:ProtoBuf.Transport.DataPair.Equals(System.Object)">
+            <summary>Determines whether the specified <see cref="T:System.Object" /> is equal to the current <see cref="T:System.Object" />.</summary>
+            <returns>true if the specified <see cref="T:System.Object" /> is equal to the current <see cref="T:System.Object" />; otherwise, false.</returns>
+            <param name="obj">The <see cref="T:System.Object" /> to compare with the current <see cref="T:System.Object" />. </param>
+        </member>
+        <member name="M:ProtoBuf.Transport.DataPair.GetHashCode">
+            <summary>Serves as a hash function for a particular type. </summary>
+            <returns>A hash code for the current <see cref="T:System.Object" />.</returns>
+        </member>
+        <member name="T:ProtoBuf.Transport.DataPart">
+            <summary>
+            Holds information about transported piece of data
+            </summary>
+        </member>
+        <member name="M:ProtoBuf.Transport.DataPart.#ctor(ProtoBuf.Transport.Abstract.IDataContainer)">
+            <summary>
+            Creates <see cref="T:ProtoBuf.Transport.DataPart"/> instance
+            </summary>
+            <param name="dataContainer">Container with data stream</param>
+        </member>
+        <member name="P:ProtoBuf.Transport.DataPart.Headers">
+            <summary>
+            List of headers
+            </summary>
+        </member>
+        <member name="P:ProtoBuf.Transport.DataPart.Properties">
+            <summary>
+            List of properties
+            </summary>
+        </member>
+        <member name="M:ProtoBuf.Transport.DataPart.GetStream">
+            <summary>
+            Returns holded data stream
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ProtoBuf.Transport.DataPart.CopyToStream(System.IO.Stream)">
+            <summary>
+            Writes holded data stream into another stream
+            </summary>
+            <param name="stream"></param>
+        </member>
+        <member name="M:ProtoBuf.Transport.DataPart.Deserialize``1(ProtoBuf.Transport.Func{System.IO.Stream,``0})">
+            <summary>
+            Deserialize data from stream
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="deserializeFunc"></param>
+            <returns></returns>
+        </member>
+        <member name="T:ProtoBuf.Transport.DelegateDataContainer">
+            <summary>
+            Holds reference to delegate, which is called at CopyToStream method.
+            </summary>
+        </member>
+        <member name="M:ProtoBuf.Transport.DelegateDataContainer.GetStream">
+            <summary>
+            Returns stream, contained within
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ProtoBuf.Transport.DelegateDataContainer.CopyToStream(System.IO.Stream)">
+            <summary>
+            Copy contained inner data into the output stream.
+            </summary>
+            <param name="stream"></param>
+        </member>
+        <member name="T:ProtoBuf.Transport.FilteredStream">
+            <summary>
+            Декоратор для потока, позволяющий выделить из потока только какой-то фрагмент
+            на своём диспозе не диспозит underlying поток, который декорирует.
+            Это сделано осознано и менять это поведение НЕЛЬЗЯ, если нужен фильтрующий поток, 
+            который диспозит свой подчинённый поток, то используйте DisposableFilteredStream
+            </summary>
+        </member>
+        <member name="T:ProtoBuf.Transport.FuncDataContainer">
+            <summary>
+            It contains a reference to the function, which creates a stream
+            </summary>
+        </member>
+        <member name="M:ProtoBuf.Transport.FuncDataContainer.#ctor(ProtoBuf.Transport.Func{System.IO.Stream})">
+            <summary>
+            Creates instance of <see cref="T:ProtoBuf.Transport.FuncDataContainer"/>
+            </summary>
+            <param name="streamFunc"></param>
+        </member>
+        <member name="M:ProtoBuf.Transport.FuncDataContainer.GetStream">
+            <summary>
+            Returns stream, contained within
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ProtoBuf.Transport.FuncDataContainer.CopyToStream(System.IO.Stream)">
+            <summary>
+            Copy contained inner data into the output stream.
+            </summary>
+            <param name="stream"></param>
+        </member>
+        <member name="M:ProtoBuf.Transport.Headers.GetEnumerator">
+            <summary>Returns an enumerator that iterates through the collection.</summary>
+            <returns>A <see cref="T:System.Collections.Generic.IEnumerator`1" /> that can be used to iterate through the collection.</returns>
+        </member>
+        <member name="M:ProtoBuf.Transport.Headers.System#Collections#IEnumerable#GetEnumerator">
+            <summary>Returns an enumerator that iterates through a collection.</summary>
+            <returns>An <see cref="T:System.Collections.IEnumerator" /> object that can be used to iterate through the collection.</returns>
+        </member>
+        <member name="M:ProtoBuf.Transport.Headers.Add(ProtoBuf.Transport.DataPair)">
+            <summary>Adds an item to the <see cref="T:System.Collections.Generic.ICollection`1" />.</summary>
+            <param name="item">The object to add to the <see cref="T:System.Collections.Generic.ICollection`1" />.</param>
+            <exception cref="T:System.NotSupportedException">The <see cref="T:System.Collections.Generic.ICollection`1" /> is read-only.</exception>
+        </member>
+        <member name="M:ProtoBuf.Transport.Headers.Clear">
+            <summary>Removes all items from the <see cref="T:System.Collections.Generic.ICollection`1" />.</summary>
+            <exception cref="T:System.NotSupportedException">The <see cref="T:System.Collections.Generic.ICollection`1" /> is read-only. </exception>
+        </member>
+        <member name="M:ProtoBuf.Transport.Headers.Contains(ProtoBuf.Transport.DataPair)">
+            <summary>Determines whether the <see cref="T:System.Collections.Generic.ICollection`1" /> contains a specific value.</summary>
+            <returns>true if <paramref name="item" /> is found in the <see cref="T:System.Collections.Generic.ICollection`1" />; otherwise, false.</returns>
+            <param name="item">The object to locate in the <see cref="T:System.Collections.Generic.ICollection`1" />.</param>
+        </member>
+        <member name="M:ProtoBuf.Transport.Headers.CopyTo(ProtoBuf.Transport.DataPair[],System.Int32)">
+            <summary>Copies the elements of the <see cref="T:System.Collections.Generic.ICollection`1" /> to an <see cref="T:System.Array" />, starting at a particular <see cref="T:System.Array" /> index.</summary>
+            <param name="array">The one-dimensional <see cref="T:System.Array" /> that is the destination of the elements copied from <see cref="T:System.Collections.Generic.ICollection`1" />. The <see cref="T:System.Array" /> must have zero-based indexing.</param>
+            <param name="arrayIndex">The zero-based index in <paramref name="array" /> at which copying begins.</param>
+            <exception cref="T:System.ArgumentNullException">
+            <paramref name="array" /> is null.</exception>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            <paramref name="arrayIndex" /> is less than 0.</exception>
+            <exception cref="T:System.ArgumentException">The number of elements in the source <see cref="T:System.Collections.Generic.ICollection`1" /> is greater than the available space from <paramref name="arrayIndex" /> to the end of the destination <paramref name="array" />.</exception>
+        </member>
+        <member name="M:ProtoBuf.Transport.Headers.Remove(ProtoBuf.Transport.DataPair)">
+            <summary>Removes the first occurrence of a specific object from the <see cref="T:System.Collections.Generic.ICollection`1" />.</summary>
+            <returns>true if <paramref name="item" /> was successfully removed from the <see cref="T:System.Collections.Generic.ICollection`1" />; otherwise, false. This method also returns false if <paramref name="item" /> is not found in the original <see cref="T:System.Collections.Generic.ICollection`1" />.</returns>
+            <param name="item">The object to remove from the <see cref="T:System.Collections.Generic.ICollection`1" />.</param>
+            <exception cref="T:System.NotSupportedException">The <see cref="T:System.Collections.Generic.ICollection`1" /> is read-only.</exception>
+        </member>
+        <member name="P:ProtoBuf.Transport.Headers.Count">
+            <summary>Gets the number of elements contained in the <see cref="T:System.Collections.Generic.ICollection`1" />.</summary>
+            <returns>The number of elements contained in the <see cref="T:System.Collections.Generic.ICollection`1" />.</returns>
+        </member>
+        <member name="P:ProtoBuf.Transport.Headers.IsReadOnly">
+            <summary>Gets a value indicating whether the <see cref="T:System.Collections.Generic.ICollection`1" /> is read-only.</summary>
+            <returns>true if the <see cref="T:System.Collections.Generic.ICollection`1" /> is read-only; otherwise, false.</returns>
+        </member>
+        <member name="M:ProtoBuf.Transport.Headers.IndexOf(ProtoBuf.Transport.DataPair)">
+            <summary>Determines the index of a specific item in the <see cref="T:System.Collections.Generic.IList`1" />.</summary>
+            <returns>The index of <paramref name="item" /> if found in the list; otherwise, -1.</returns>
+            <param name="item">The object to locate in the <see cref="T:System.Collections.Generic.IList`1" />.</param>
+        </member>
+        <member name="M:ProtoBuf.Transport.Headers.Insert(System.Int32,ProtoBuf.Transport.DataPair)">
+            <summary>Inserts an item to the <see cref="T:System.Collections.Generic.IList`1" /> at the specified index.</summary>
+            <param name="index">The zero-based index at which <paramref name="item" /> should be inserted.</param>
+            <param name="item">The object to insert into the <see cref="T:System.Collections.Generic.IList`1" />.</param>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            <paramref name="index" /> is not a valid index in the <see cref="T:System.Collections.Generic.IList`1" />.</exception>
+            <exception cref="T:System.NotSupportedException">The <see cref="T:System.Collections.Generic.IList`1" /> is read-only.</exception>
+        </member>
+        <member name="M:ProtoBuf.Transport.Headers.RemoveAt(System.Int32)">
+            <summary>Removes the <see cref="T:System.Collections.Generic.IList`1" /> item at the specified index.</summary>
+            <param name="index">The zero-based index of the item to remove.</param>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            <paramref name="index" /> is not a valid index in the <see cref="T:System.Collections.Generic.IList`1" />.</exception>
+            <exception cref="T:System.NotSupportedException">The <see cref="T:System.Collections.Generic.IList`1" /> is read-only.</exception>
+        </member>
+        <member name="P:ProtoBuf.Transport.Headers.Item(System.Int32)">
+            <summary>Gets or sets the element at the specified index.</summary>
+            <returns>The element at the specified index.</returns>
+            <param name="index">The zero-based index of the element to get or set.</param>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            <paramref name="index" /> is not a valid index in the <see cref="T:System.Collections.Generic.IList`1" />.</exception>
+            <exception cref="T:System.NotSupportedException">The property is set and the <see cref="T:System.Collections.Generic.IList`1" /> is read-only.</exception>
+        </member>
+        <member name="T:ProtoBuf.Transport.NonClosingStreamWrapper">
+            <summary>
+            Wraps a stream for all operations except Close and Dispose, which
+            merely flush the stream and prevent further operations from being
+            carried out using this wrapper.
+            </summary>
+        </member>
+        <member name="F:ProtoBuf.Transport.NonClosingStreamWrapper._closed">
+            <summary>
+            Whether this stream has been closed or not
+            </summary>
+        </member>
+        <member name="M:ProtoBuf.Transport.NonClosingStreamWrapper.#ctor(System.IO.Stream)">
+            <summary>
+            Creates a new instance of the class, wrapping the specified stream.
+            </summary>
+            <param name="stream">The stream to wrap. Must not be null.</param>
+            <exception cref="T:System.ArgumentNullException">stream is null</exception>
+        </member>
+        <member name="P:ProtoBuf.Transport.NonClosingStreamWrapper.BaseStream">
+            <summary>
+            Stream wrapped by this wrapper
+            </summary>
+        </member>
+        <member name="M:ProtoBuf.Transport.NonClosingStreamWrapper.CheckClosed">
+            <summary>
+            Throws an InvalidOperationException if the wrapper is closed.
+            </summary>
+        </member>
+        <member name="M:ProtoBuf.Transport.NonClosingStreamWrapper.BeginRead(System.Byte[],System.Int32,System.Int32,System.AsyncCallback,System.Object)">
+            <summary>
+            Begins an asynchronous read operation.
+            </summary>
+            <param name="buffer">The buffer to read the data into. </param>
+            <param name="offset">
+            The byte offset in buffer at which to begin writing data read from the stream.
+            </param>
+            <param name="count">The maximum number of bytes to read. </param>
+            <param name="callback">
+            An optional asynchronous callback, to be called when the read is complete.
+            </param>
+            <param name="state">
+            A user-provided object that distinguishes this particular 
+            asynchronous read request from other requests.
+            </param>
+            <returns>
+            An IAsyncResult that represents the asynchronous read, 
+            which could still be pending.
+            </returns>
+        </member>
+        <member name="M:ProtoBuf.Transport.NonClosingStreamWrapper.BeginWrite(System.Byte[],System.Int32,System.Int32,System.AsyncCallback,System.Object)">
+            <summary>
+            Begins an asynchronous write operation.
+            </summary>
+            <param name="buffer">The buffer to write data from.</param>
+            <param name="offset">The byte offset in buffer from which to begin writing.</param>
+            <param name="count">The maximum number of bytes to write.</param>
+            <param name="callback">
+            An optional asynchronous callback, to be called when the write is complete.
+            </param>
+            <param name="state">
+            A user-provided object that distinguishes this particular asynchronous 
+            write request from other requests.
+            </param>
+            <returns>
+            An IAsyncResult that represents the asynchronous write, 
+            which could still be pending.
+            </returns>
+        </member>
+        <member name="P:ProtoBuf.Transport.NonClosingStreamWrapper.CanRead">
+            <summary>
+            Indicates whether or not the underlying stream can be read from.
+            </summary>
+        </member>
+        <member name="P:ProtoBuf.Transport.NonClosingStreamWrapper.CanSeek">
+            <summary>
+            Indicates whether or not the underlying stream supports seeking.
+            </summary>
+        </member>
+        <member name="P:ProtoBuf.Transport.NonClosingStreamWrapper.CanWrite">
+            <summary>
+            Indicates whether or not the underlying stream can be written to.
+            </summary>
+        </member>
+        <member name="M:ProtoBuf.Transport.NonClosingStreamWrapper.Close">
+            <summary>
+            This method is not proxied to the underlying stream; instead, the wrapper
+            is marked as unusable for other (non-close/Dispose) operations. The underlying
+            stream is flushed if the wrapper wasn't closed before this call.
+            </summary>
+        </member>
+        <member name="M:ProtoBuf.Transport.NonClosingStreamWrapper.CreateObjRef(System.Type)">
+            <summary>
+            Throws a NotSupportedException.
+            </summary>
+            <param name="requestedType">The Type of the object that the new ObjRef will reference.</param>
+            <returns>n/a</returns>
+        </member>
+        <member name="M:ProtoBuf.Transport.NonClosingStreamWrapper.EndRead(System.IAsyncResult)">
+            <summary>
+            Waits for the pending asynchronous read to complete.
+            </summary>
+            <param name="asyncResult">
+            The reference to the pending asynchronous request to finish.
+            </param>
+            <returns>
+            The number of bytes read from the stream, between zero (0) 
+            and the number of bytes you requested. Streams only return 
+            zero (0) at the end of the stream, otherwise, they should 
+            block until at least one byte is available.
+            </returns>
+        </member>
+        <member name="M:ProtoBuf.Transport.NonClosingStreamWrapper.EndWrite(System.IAsyncResult)">
+            <summary>
+            Ends an asynchronous write operation.
+            </summary>
+            <param name="asyncResult">A reference to the outstanding asynchronous I/O request.</param>
+        </member>
+        <member name="M:ProtoBuf.Transport.NonClosingStreamWrapper.Flush">
+            <summary>
+            Flushes the underlying stream.
+            </summary>
+        </member>
+        <member name="M:ProtoBuf.Transport.NonClosingStreamWrapper.InitializeLifetimeService">
+            <summary>
+            Throws a NotSupportedException.
+            </summary>
+            <returns>n/a</returns>
+        </member>
+        <member name="P:ProtoBuf.Transport.NonClosingStreamWrapper.Length">
+            <summary>
+            Returns the length of the underlying stream.
+            </summary>
+        </member>
+        <member name="P:ProtoBuf.Transport.NonClosingStreamWrapper.Position">
+            <summary>
+            Gets or sets the current position in the underlying stream.
+            </summary>
+        </member>
+        <member name="M:ProtoBuf.Transport.NonClosingStreamWrapper.Read(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            Reads a sequence of bytes from the underlying stream and advances the 
+            position within the stream by the number of bytes read.
+            </summary>
+            <param name="buffer">
+            An array of bytes. When this method returns, the buffer contains 
+            the specified byte array with the values between offset and 
+            (offset + count- 1) replaced by the bytes read from the underlying source.
+            </param>
+            <param name="offset">
+            The zero-based byte offset in buffer at which to begin storing the data 
+            read from the underlying stream.
+            </param>
+            <param name="count">
+            The maximum number of bytes to be read from the 
+            underlying stream.
+            </param>
+            <returns>The total number of bytes read into the buffer. 
+            This can be less than the number of bytes requested if that many 
+            bytes are not currently available, or zero (0) if the end of the 
+            stream has been reached.
+            </returns>
+        </member>
+        <member name="M:ProtoBuf.Transport.NonClosingStreamWrapper.ReadByte">
+            <summary>
+            Reads a byte from the stream and advances the position within the 
+            stream by one byte, or returns -1 if at the end of the stream.
+            </summary>
+            <returns>The unsigned byte cast to an Int32, or -1 if at the end of the stream.</returns>
+        </member>
+        <member name="M:ProtoBuf.Transport.NonClosingStreamWrapper.Seek(System.Int64,System.IO.SeekOrigin)">
+            <summary>
+            Sets the position within the current stream.
+            </summary>
+            <param name="offset">A byte offset relative to the origin parameter.</param>
+            <param name="origin">
+            A value of type SeekOrigin indicating the reference 
+            point used to obtain the new position.
+            </param>
+            <returns>The new position within the underlying stream.</returns>
+        </member>
+        <member name="M:ProtoBuf.Transport.NonClosingStreamWrapper.SetLength(System.Int64)">
+            <summary>
+            Sets the length of the underlying stream.
+            </summary>
+            <param name="value">The desired length of the underlying stream in bytes.</param>
+        </member>
+        <member name="M:ProtoBuf.Transport.NonClosingStreamWrapper.Write(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            Writes a sequence of bytes to the underlying stream and advances 
+            the current position within the stream by the number of bytes written.
+            </summary>
+            <param name="buffer">
+            An array of bytes. This method copies count bytes 
+            from buffer to the underlying stream.
+            </param>
+            <param name="offset">
+            The zero-based byte offset in buffer at 
+            which to begin copying bytes to the underlying stream.
+            </param>
+            <param name="count">The number of bytes to be written to the underlying stream.</param>
+        </member>
+        <member name="M:ProtoBuf.Transport.NonClosingStreamWrapper.WriteByte(System.Byte)">
+            <summary>
+            Writes a byte to the current position in the stream and
+            advances the position within the stream by one byte.
+            </summary>
+            <param name="value">The byte to write to the stream. </param>
+        </member>
+        <member name="T:ProtoBuf.Transport.OfflineDataPackReader">
+            <summary>
+            Offline reader for files, written in protobuf-net-transport format. It provides functionality to read data from DataParts even if source stream is already closed
+            </summary>
+        </member>
+        <member name="T:ProtoBuf.Transport.OfflineDataPackWriter">
+            <summary>
+            Writer for DataPack
+            </summary>
+        </member>
+        <member name="M:ProtoBuf.Transport.OfflineDataPackWriter.Write(ProtoBuf.Transport.DataPack,System.IO.Stream,ProtoBuf.Transport.Abstract.ISignAlgorithm)">
+            <summary>
+            Writes <see cref="T:ProtoBuf.Transport.DataPack"/> to stream
+            </summary>
+            <param name="dataPack">Data</param>
+            <param name="stream">Stream where <see cref="T:ProtoBuf.Transport.DataPack"/> is written to</param>
+            <param name="signAlgorithm">Sign algorithm if needed</param>
+        </member>
+        <member name="T:ProtoBuf.Transport.OnlineDataContainer">
+            <summary>
+            It contains a reference to the stream, which will be copied to output. Assumes that contained stream is not closed before CopyStream has called. Assumes that stream is seekable.
+            </summary>
+        </member>
+        <member name="M:ProtoBuf.Transport.OnlineDataContainer.#ctor(System.IO.Stream)">
+            <summary>
+            Creates instance of <see cref="T:ProtoBuf.Transport.OnlineDataContainer"/>
+            </summary>
+            <param name="stream"></param>
+        </member>
+        <member name="M:ProtoBuf.Transport.OnlineDataContainer.GetStream">
+            <summary>
+            Returns stream, contained within
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ProtoBuf.Transport.OnlineDataContainer.CopyToStream(System.IO.Stream)">
+            <summary>
+            Copy contained inner data into the output stream.
+            </summary>
+            <param name="stream"></param>
+        </member>
+        <member name="T:ProtoBuf.Transport.OnlineDataPackReader">
+            <summary>
+            Offline reader for files, written in protobuf-net-transport format. It provides functionality to read data from DataParts only when source stream is sill open
+            </summary>
+        </member>
+        <member name="M:ProtoBuf.Transport.TempFile.CreateAsTempFile(System.String)">
+            <summary>
+            Оборачивает существуещий файл, делая его временным, но не меняя его имени
+            </summary>
+            <param name="fullFileName"></param>
+            <returns></returns>
+        </member>
+        <member name="T:ProtoBuf.Transport.TempFileDataContainer">
+            <summary>
+            It copies given stream into temporary file and then given stream can be closed without harm to the data. CopyToStream takes data from that temporary file. Temporary file will be deleted on Dispose().
+            </summary>
+        </member>
+        <member name="M:ProtoBuf.Transport.TempFileDataContainer.#ctor(System.IO.Stream)">
+            <summary>
+            Creates instance of <see cref="T:ProtoBuf.Transport.TempFileDataContainer"/>
+            </summary>
+            <param name="stream"></param>
+        </member>
+        <member name="M:ProtoBuf.Transport.TempFileDataContainer.GetStream">
+            <summary>
+            Returns stream, contained within
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ProtoBuf.Transport.TempFileDataContainer.CopyToStream(System.IO.Stream)">
+            <summary>
+            Copy contained inner data into the output stream.
+            </summary>
+            <param name="stream"></param>
+        </member>
+        <member name="M:ProtoBuf.Transport.TempFileDataContainer.Dispose">
+            <summary>
+            Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+            </summary>
+        </member>
+        <member name="T:ProtoBuf.Transport.TransportSerializer">
+            <summary>
+            Serializer to serialize and deserealize DataPack files
+            </summary>
+        </member>
+        <member name="M:ProtoBuf.Transport.TransportSerializer.#cctor">
+            <summary>
+            Type constructor
+            </summary>
+        </member>
+        <member name="P:ProtoBuf.Transport.TransportSerializer.DataPackReader">
+            <summary>
+            DataPackReader used to deserealize stream into DataPack
+            </summary>
+        </member>
+        <member name="P:ProtoBuf.Transport.TransportSerializer.DataPackWriter">
+            <summary>
+            DataPackWriter used to serialize DataPack into strream
+            </summary>
+        </member>
+        <member name="M:ProtoBuf.Transport.TransportSerializer.Serialize(ProtoBuf.Transport.DataPack,System.IO.Stream,ProtoBuf.Transport.Abstract.ISignAlgorithm)">
+            <summary>
+            Writes DataPack into stream using signing if needed
+            </summary>
+            <param name="dataPack">DataPack object to write</param>
+            <param name="stream">Stream, where DataPack will be serialized</param>
+            <param name="signAlgorithm">Signing algorithm to use if needed</param>
+        </member>
+        <member name="M:ProtoBuf.Transport.TransportSerializer.Deserialize(System.IO.Stream)">
+            <summary>
+            Deserializes DataPack from stream
+            </summary>
+            <param name="stream">Stream, where DataPack is contained</param>
+            <returns></returns>
+        </member>
+        <member name="M:ProtoBuf.Transport.TransportSerializer.Deserialize(System.IO.Stream,System.Byte[])">
+            <summary>
+            Deserializes DataPack from stream and checks if prefix match
+            </summary>
+            <param name="stream">Stream, where DataPack is contained</param>
+            <param name="prefix">Prefix of data</param>
+            <returns></returns>
+        </member>
+        <member name="M:ProtoBuf.Transport.TransportSerializer.Deserialize(System.IO.Stream,System.String)">
+            <summary>
+            Deserializes DataPack from stream and checks if prefix match
+            </summary>
+            <param name="stream">Stream, where DataPack is contained</param>
+            <param name="prefix">Prefix of data</param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>
