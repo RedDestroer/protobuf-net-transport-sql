@@ -81,10 +81,12 @@ GO
 
 
 CREATE PROCEDURE [exch].[ReadTransportFile]
-	@fullFileName [nvarchar](255),
-	@tableName [nvarchar](255),
-	@userName [nvarchar](255),
-	@password [nvarchar](255)
+    @fullFileName [nvarchar](255),
+    @serverName [nvarchar](255),
+    @databaseName [nvarchar](255),
+    @tableName [nvarchar](255),
+    @userName [nvarchar](255),
+    @password [nvarchar](255)
 WITH 
  EXECUTE AS CALLER
 AS
@@ -93,8 +95,9 @@ EXTERNAL NAME [ProtoBufTransportSql].[ProtoBuf.Transport.Sql.StoredProcedures].[
 GO
 
 CREATE PROCEDURE [exch].[WriteTransportFile]
-	@fullFileName [nvarchar](255),
-	@tableName [nvarchar](255)
+    @fullFileName [nvarchar](255),
+    @tableName [nvarchar](255),
+    @fields [nvarchar](255)
 WITH 
  EXECUTE AS CALLER
 AS

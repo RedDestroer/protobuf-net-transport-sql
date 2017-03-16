@@ -14,11 +14,15 @@ namespace ProtoBuf.Transport.Sql
         [SqlProcedure]
         public static void ReadTransportFile(
             [SqlFacet(MaxSize = 255, IsNullable = false)] SqlString fullFileName,
+            [SqlFacet(MaxSize = 255, IsNullable = false)] SqlString serverName,
+            [SqlFacet(MaxSize = 255, IsNullable = false)] SqlString databaseName,
             [SqlFacet(MaxSize = 255, IsNullable = false)] SqlString tableName,
             [SqlFacet(MaxSize = 255, IsNullable = false)] SqlString userName,
             [SqlFacet(MaxSize = 255, IsNullable = false)] SqlString password)
         {
             if (fullFileName.IsNull) throw new ArgumentNullException("fullFileName");
+            if (tableName.IsNull) throw new ArgumentNullException("serverName");
+            if (tableName.IsNull) throw new ArgumentNullException("databaseName");
             if (tableName.IsNull) throw new ArgumentNullException("tableName");
             if (userName.IsNull) throw new ArgumentNullException("userName");
             if (password.IsNull) throw new ArgumentNullException("password");
@@ -30,7 +34,7 @@ namespace ProtoBuf.Transport.Sql
 
                 var dataPart = dataPack.DataParts[0];
 
-                var connectionString = string.Format(@"Server=SILIAKSTAR\SQL2014;Database=KKT;User Id={0};Password={1};", userName, password);
+                var connectionString = string.Format(@"Server={0};Database={1};User Id={2};Password={3};", serverName, databaseName, userName, password);
 
                 using (var partStream = dataPart.GetStream())
                 using (var dataReader = DataSerializer.Deserialize(partStream))
@@ -52,12 +56,17 @@ namespace ProtoBuf.Transport.Sql
         [SqlProcedure]
         public static void WriteTransportFile(
             [SqlFacet(MaxSize = 255, IsNullable = false)] SqlString fullFileName,
-            [SqlFacet(MaxSize = 255, IsNullable = false)] SqlString tableName)
+            [SqlFacet(MaxSize = 255, IsNullable = false)] SqlString tableName,
+            [SqlFacet(MaxSize = 255, IsNullable = true)] SqlString fields)
         {
             if (fullFileName.IsNull) throw new ArgumentNullException("fullFileName");
             if (tableName.IsNull) throw new ArgumentNullException("tableName");
 
-            var commandText = string.Format("SELECT * FROM {0}", tableName.Value);
+            string fieldFilter = "*";
+            if (!fields.IsNull)
+                fieldFilter = fields.Value;
+
+            var commandText = string.Format("SELECT {0} FROM {1}", fieldFilter, tableName.Value);
             var streamContainer = new DataStreamContainer(ContextConnectionString, commandText);
             var dataPart = new DataPart(streamContainer);
 
